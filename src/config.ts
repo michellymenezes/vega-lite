@@ -339,18 +339,7 @@ export function stripAndRedirectConfig(config: Config) {
   }
 
   for (const m of getAllCompositeMarks()) {
-    for (const part of getCompositeMarkParts(m)) {
-      // Remove Vega-Lite-only mark config
-      for (const prop of VL_ONLY_MARK_CONFIG_PROPERTIES) {
-        if (config[m] && config[m][part]) {
-          delete config[m][part][prop];
-        }
-      }
-      // Re-direct all composite mark's part configs to config.style
-      // For example, config.boxplot.whisker should become config.style.boxplot-whisker.
-      redirectConfig(config, m, `${m}-${part}`, part);
-    }
-    // Clean up the composite mark config after redirecting all of it
+    // Clean up the composite mark config as we don't need them in the output specs anymore
     delete config[m];
   }
 
